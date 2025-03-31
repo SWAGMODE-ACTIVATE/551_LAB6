@@ -8,8 +8,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
-
-
+        <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
     </head>
 
     <body>
@@ -40,7 +39,7 @@
         edit: {
             featureGroup: drawnItems,
             remove: true,
-            edit: false
+            edit: false//removes edit button that idk what it does
         },
         draw: { //shuts off all the features u can draw that i dont want
             polygon: false,
@@ -54,11 +53,12 @@
     map.addControl(drawControl);
 
     map.on("draw:created", function (e) {
-    var layer = e.layer;
-    drawnItems.clearLayers() //removes any previous polyline
-    drawnItems.addLayer(layer)
-    document.getElementById("simplify").disabled = false
-    document.getElementById("remove").disabled = false
+        var layer = e.layer;
+        currentline = layer //for use in simplify button
+        drawnItems.clearLayers() //removes any previous polyline
+        drawnItems.addLayer(layer)
+        document.getElementById("simplify").disabled = false
+        document.getElementById("remove").disabled = false
     });
 
     //remove button in form
@@ -66,6 +66,19 @@
         drawnItems.clearLayers()
         document.getElementById("simplify").disabled = true
         document.getElementById("remove").disabled = true
+    })
+
+    //simplify button
+    document.getElementById("simplify").addEventListener("click", function(){
+        geojson = currentline.toGeoJSON()
+        console.log(geojson)
+        simpleline = turf.simplify(geojson)
+        console.log(simpleline)
+
+        //adding simplified line to map
+        drawnItems.clearLayers()
+        L.geoJSON(simpleline).addTo(drawnItems)
+        
     })
 
     </script> 
