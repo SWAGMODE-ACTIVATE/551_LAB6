@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
     <head>
-        <title>temperature Map</title>
+        <title>tuft line simplifier</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	    <link rel="stylesheet" href="pagestyle.css">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -38,8 +38,8 @@
     var drawControl = new L.Control.Draw({
         edit: {
             featureGroup: drawnItems,
-            remove: true,
-            edit: false//removes edit button that idk what it does
+            remove: false,
+            edit: false,//removes edit button that idk what it does
         },
         draw: { //shuts off all the features u can draw that i dont want
             polygon: false,
@@ -71,14 +71,14 @@
     //simplify button
     document.getElementById("simplify").addEventListener("click", function(){
         geojson = currentline.toGeoJSON()
-        console.log(geojson)
-        simpleline = turf.simplify(geojson)
-        console.log(simpleline)
+        //console.log(geojson)
+        var options = { tolerance: 0.01, highQuality: false } //from https://turfjs.org/docs/api/simplify
+        simpleline = turf.simplify(geojson, options)
+        //console.log(simpleline)
 
         //adding simplified line to map
         drawnItems.clearLayers()
         L.geoJSON(simpleline).addTo(drawnItems)
-        
     })
 
     </script> 

@@ -1,11 +1,11 @@
-# 551_LAB5
+# 551_LAB6
 
-the temperature map webpage connects the user to their chosen mqtt topic and subscribes to it, and then allows the user to share their status, which creates a geojson object and publishes it to the topic. the javascript also contains functions to read new messages on the topic (ie the geojsons) and interpret them, creating leaflet map marker points that display the users locatoin and a random temperature value. the geolocation is taken from the web browser using javascript geolocation api. the user can only publish status when connected to the broker, and button to disconnect form it exists on the page as well.
+this htmlpage contains a leaflet map that users can draw polylines onto (this is powered by the leaflet.draw API!) once a line is drawn, it is added to the map and the two buttons at the top become enabled, one of which allows the users to delete the line and the other uses turf.js in order to simplify the line. Only 1 line can be on the map at a time, and drawing a new one will replace the old line. this is a very simple lab and most of the code is simply copy/pasted from the documentation examples of each respective API. the buttons at the top are disabled unless there is a line present on the map.
 
 Files-
 pagestyle.css - this is the basic css stylesheet for page
 
-index.html - webpage containining all of the html and javascript to work the page. also links to various external stylesheets like leaflet and mqtt paho.
+index.html - webpage containining all of the html and javascript to work the page. also links to various external stylesheets like leaflet and turf.js
 
 .gitattributes - idk what this is but it looks important
 
